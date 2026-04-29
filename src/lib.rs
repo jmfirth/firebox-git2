@@ -1,3 +1,8 @@
+// Firebox: util.rs uses std::os::wasi::ffi::OsStrExt in the wasi cfg arms
+// of bytes2path and IntoCString for OsString. That module is gated on the
+// unstable wasi_ext feature.
+#![cfg_attr(target_os = "wasi", feature(wasi_ext))]
+
 //! # libgit2 bindings for Rust
 //!
 //! This library contains bindings to the [libgit2][1] C library which is used
@@ -880,6 +885,7 @@ fn openssl_env_init() {
     windows,
     target_os = "macos",
     target_os = "ios",
+    target_os = "wasi",
     not(feature = "https")
 ))]
 fn openssl_env_init() {}
